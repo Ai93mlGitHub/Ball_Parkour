@@ -6,7 +6,10 @@ public class CoinController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        _coinCounter.AddActivatedCoin();
-        gameObject.SetActive(false);
+        if (other.CompareTag("Player"))
+        {
+            _coinCounter.AddActivatedCoin();
+            gameObject.SetActive(false);
+        }
     }
 }

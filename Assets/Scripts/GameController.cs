@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
     private CoinCounter _coinCounter;
     private UIController _uIController;
     private GameObject[] coins;
+    private bool _isRunningGame;
 
     private void Awake()
     {
@@ -22,28 +23,30 @@ public class GameController : MonoBehaviour
     {
         coins = GameObject.FindGameObjectsWithTag("Coin");
         GameStart();
-
     }
 
     private void Update()
     {
-        if (_timer.TimeOver)
-            GameLose();
+        if (_isRunningGame)
+        {
+            if (_timer.TimeOver)
+                GameLose();
 
-        if (_coinCounter.IsFullStack())
-            GameWin();
+            if (_coinCounter.IsFullStack())
+                GameWin();
+        }
     }
 
     private void GameWin()
     {
         GameStop();
-        _uIController.WinWindowActivate();
+        _uIController.WinWindowSetActive(true);
     }
 
     private void GameLose()
     {
         GameStop();
-        _uIController.LoseWindowActivate();
+        _uIController.LoseWindowSetActive(true);
     }
 
     public void GameStart()
@@ -54,6 +57,7 @@ public class GameController : MonoBehaviour
         _uIController.CloseAllWindows();
         _playerMovement.UnFreeze();
         _playerMovement.ResetPosition();
+        _isRunningGame = true;
     }
 
     private void ResetObjectsOnScene()
@@ -72,5 +76,6 @@ public class GameController : MonoBehaviour
     public void GameStop()
     {
         _playerMovement.Freeze();
+        _isRunningGame = false;
     }
 }

@@ -6,28 +6,23 @@ public class Movement : MonoBehaviour
     [SerializeField] private float _turnTorque = 10f;
     [SerializeField] private float _jumpForce = 5f;
     [SerializeField] private float _dashForce = 10f;
-    [SerializeField] private LayerMask _groundLayer;
-    [SerializeField] private float _groundCheckDistance = 0.1f;
-
+    [SerializeField] private LayerMask _groundLayerMask;
+    
     private InputControl _inputControl;
     private Rigidbody _rigidBody;
     private bool _isGrounded;
-    private string _groundLayerName = "Ground";
     private Vector3 _startPosition;
-    private bool _isRunning = true;
 
     private void Awake()
     {
         _inputControl = GetComponent<InputControl>();
         _rigidBody = GetComponent<Rigidbody>();
-        _groundLayer = LayerMask.NameToLayer(_groundLayerName);
         _startPosition = transform.position;
     }
 
     void Update()
     {
         Vector3 movementVector = _inputControl.GetMovementVector();
-        
         Move(movementVector);
 
         if (_inputControl.IsJumping() && _isGrounded)
@@ -35,7 +30,7 @@ public class Movement : MonoBehaviour
             Jump();
         }
 
-        if (_inputControl.IsDashing() && _isGrounded)
+        if (_inputControl.IsDashing())
         {
             Dash();
         }
@@ -93,7 +88,7 @@ public class Movement : MonoBehaviour
 
     private bool IsGroundLayer(Collision collision)
     {
-        return collision.gameObject.layer == _groundLayer;
+        return (_groundLayerMask.value & (1 << collision.gameObject.layer)) != 0;
     }
 
     public void Freeze()

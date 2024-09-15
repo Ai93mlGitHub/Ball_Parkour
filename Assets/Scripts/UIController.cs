@@ -34,17 +34,17 @@ public class UIController : MonoBehaviour
 
     public void CloseAllWindows()
     {
-        _gameLoseWindow.SetActive(false);
-        _gameWinWindow.SetActive(false);
+        LoseWindowSetActive(false);
+        WinWindowSetActive(false);
     }
 
-    public void WinWindowActivate()
+    public void WinWindowSetActive(bool isActive)
     {
-        _gameWinWindow.SetActive(true);
+        _gameWinWindow.SetActive(isActive);
     }
 
-    public void LoseWindowActivate()
+    public void LoseWindowSetActive(bool isActive)
     {
-        _gameLoseWindow.SetActive(true);
+        _gameLoseWindow.SetActive(isActive);
     }
 }
