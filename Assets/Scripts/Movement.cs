@@ -13,13 +13,15 @@ public class Movement : MonoBehaviour
     private Rigidbody _rigidBody;
     private bool _isGrounded;
     private string _groundLayerName = "Ground";
-
+    private Vector3 _startPosition;
+    private bool _isRunning = true;
 
     private void Awake()
     {
         _inputControl = GetComponent<InputControl>();
         _rigidBody = GetComponent<Rigidbody>();
         _groundLayer = LayerMask.NameToLayer(_groundLayerName);
+        _startPosition = transform.position;
     }
 
     void Update()
@@ -37,6 +39,9 @@ public class Movement : MonoBehaviour
         {
             Dash();
         }
+
+        if (_inputControl.IsReset())
+            ResetPosition();
     }
     private void Move(Vector3 direction)
     {
@@ -54,6 +59,12 @@ public class Movement : MonoBehaviour
     {
         Vector3 dashForceVector = _rigidBody.velocity.normalized * _dashForce;
         _rigidBody.AddForce(dashForceVector, ForceMode.Impulse);
+    }
+
+    public void ResetPosition()
+    {
+        _rigidBody.velocity = Vector3.zero;
+        transform.position = _startPosition;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -83,5 +94,15 @@ public class Movement : MonoBehaviour
     private bool IsGroundLayer(Collision collision)
     {
         return collision.gameObject.layer == _groundLayer;
+    }
+
+    public void Freeze()
+    {
+        _rigidBody.isKinematic = true;
+    }
+
+    public void UnFreeze()
+    {
+        _rigidBody.isKinematic = false;
     }
 }

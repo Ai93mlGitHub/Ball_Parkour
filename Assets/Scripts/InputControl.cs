@@ -22,4 +22,9 @@ public class InputControl : MonoBehaviour
     {
         return Input.GetButtonDown("Dash");
     }
+
+    public bool IsReset()
+    {
+        return Input.GetButtonDown("Reset");
+    }
 }
