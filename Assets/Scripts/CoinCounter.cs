@@ -1,10 +1,8 @@
-using System;
 using UnityEngine;
 
 public class CoinCounter : MonoBehaviour
 {
     public int NumbersOfAllCoins { get; private set; }
-
     public int NumbersfActivatedCoins { get; private set; }
 
     private void Awake()
@@ -34,6 +32,4 @@ public class CoinCounter : MonoBehaviour
     {
         NumbersfActivatedCoins = 0;
     }
-
-
 }

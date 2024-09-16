@@ -3,6 +3,7 @@ using UnityEngine;
 public class Rotation : MonoBehaviour
 {
     [SerializeField] private Vector3 _speedRotationVector;
+
     private Quaternion _startRotation;
 
     private void Awake()
