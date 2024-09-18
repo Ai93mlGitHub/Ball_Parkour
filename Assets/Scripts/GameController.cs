@@ -3,10 +3,11 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     [SerializeField] Movement _playerMovement;
-    [SerializeField] Rotation[] _rotatingObstacles; 
+    [SerializeField] Rotator[] _rotatingObstacles;
+    [SerializeField] Transform _groundBound;
 
     private Timer _timer;
-    private CoinCounter _coinCounter;
+    private CoinController _coinController;
     private UIController _uIController;
     private GameObject[] coins;
     private bool _isRunningGame;
@@ -14,13 +15,12 @@ public class GameController : MonoBehaviour
     private void Awake()
     {
         _timer = gameObject.GetComponent<Timer>();
-        _coinCounter = gameObject.GetComponent<CoinCounter>();
+        _coinController = gameObject.GetComponent<CoinController>();
         _uIController = gameObject.GetComponent<UIController>();
     }
 
     private void Start()
     {
-        coins = GameObject.FindGameObjectsWithTag("Coin");
         GameStart();
     }
 
@@ -31,9 +31,12 @@ public class GameController : MonoBehaviour
             if (_timer.TimeOver)
                 GameLose();
 
-            if (_coinCounter.IsFullStack())
+            if (_coinController.IsFullStack())
                 GameWin();
         }
+
+        if (_playerMovement.transform.position.y < _groundBound.position.y)
+            _playerMovement.ResetPosition();
     }
 
     private void GameWin()
@@ -52,7 +55,7 @@ public class GameController : MonoBehaviour
     {
         ResetObjectsOnScene();
         _timer.ResetTimer();
-        _coinCounter.ResetCoinsCounter();
+        _coinController.ResetCoinsCounter();
         _uIController.CloseAllWindows();
         _playerMovement.UnFreeze();
         _playerMovement.ResetPosition();
@@ -61,12 +64,9 @@ public class GameController : MonoBehaviour
 
     private void ResetObjectsOnScene()
     {
-        foreach(GameObject coin in coins)
-        {
-            coin.SetActive(true);
-        }
+        _coinController.ResetCoinsOnScene();
 
-        foreach(Rotation obstacle in _rotatingObstacles)
+        foreach (Rotator obstacle in _rotatingObstacles)
         {
             obstacle.ResetRotation();
         }

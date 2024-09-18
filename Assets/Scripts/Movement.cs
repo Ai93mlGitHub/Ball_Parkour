@@ -20,7 +20,7 @@ public class Movement : MonoBehaviour
         _startPosition = transform.position;
     }
 
-    void Update()
+    private void Update()
     {
         Vector3 movementVector = _inputControl.GetMovementVector();
         Move(movementVector);
@@ -38,6 +38,7 @@ public class Movement : MonoBehaviour
         if (_inputControl.IsReset())
             ResetPosition();
     }
+
     private void Move(Vector3 direction)
     {
         Vector3 moveForce = direction * _moveSpeed;

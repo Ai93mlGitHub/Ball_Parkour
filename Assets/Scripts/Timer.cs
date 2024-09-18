@@ -10,26 +10,22 @@ public class Timer : MonoBehaviour
         private set
         {
             if (value > 0)
-            {
                 _timerGoal = value;
-            }
             else
-            {
                 Debug.LogWarning("TimerGoal must be greater than zero.");
-            }
         }
     }
 
     public float TimeRemainig { get; private set; }
 
-    public bool TimeOver { get; private set; } = false;
+    public bool TimeOver => TimeRemainig <= 0;
 
     private void Start()
     {
         ResetTimer();
     }
 
-    void Update()
+    private void Update()
     {
         if (TimeRemainig > 0)
         {
@@ -37,7 +33,6 @@ public class Timer : MonoBehaviour
         }
         else if (TimeOver == false)
         {
-            TimeOver = true;
             TimeRemainig = 0;
         }
     }
@@ -45,6 +40,5 @@ public class Timer : MonoBehaviour
     public void ResetTimer()
     {
         TimeRemainig = _timerGoal;
-        TimeOver = false;
     }
 }

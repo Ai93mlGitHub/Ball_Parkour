@@ -9,12 +9,12 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject _gameWinWindow;
 
     private Timer _timer;
-    private CoinCounter _coinCounter;
+    private CoinController _coinCounter;
 
     private void Awake()
     {
         _timer = gameObject.GetComponent<Timer>();
-        _coinCounter = gameObject.GetComponent<CoinCounter>();
+        _coinCounter = gameObject.GetComponent<CoinController>();
     }
     private void Update()
     {
